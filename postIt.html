@@ -1,0 +1,520 @@
+<html lang="en"><script async="false" type="text/javascript" src="chrome-extension://fnjhmkhhmkbjkkabndcnnogagogbneec/in-page.js"></script><head>
+
+  <meta charset="UTF-8">
+  
+<link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+<meta name="apple-mobile-web-app-title" content="CodePen">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+
+<link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+
+
+  <title>CodePen - A Pen by Ricardo Oliva Alonso</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet">
+  
+  
+  
+<style>
+:root {
+  --gap-v: 40px;
+  --gap-h: 60px;
+  --grid-gap: 16px;
+}
+@media (max-width: 1000px) {
+  :root {
+    --gap-v: 40px;
+    --gap-h: 40px;
+  }
+}
+@media (max-width: 500px) {
+  :root {
+    --gap-v: 30px;
+    --gap-h: 30px;
+    --grid-gap: 12px;
+  }
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(43, 153, 187, 0.2);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(43, 153, 187, 0.5);
+}
+
+::selection {
+  background-color: #faf8f4;
+  color: #2b99bb;
+}
+
+body {
+  font-size: 16px;
+  font-family: "DM Sans", sans-serif;
+  text-rendering: optimizeLegibility;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  background-color: #faf8f4;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  grid-row-gap: calc(var(--grid-gap) * 2);
+  width: 100%;
+  max-width: 1480px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: var(--gap-v) var(--gap-h);
+  overflow: hidden;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form {
+  width: 45px;
+  height: 45px;
+}
+
+.posts {
+  width: 100%;
+  height: 100%;
+  display: column;
+  column-count: 4;
+  column-gap: var(--grid-gap);
+}
+@media (max-width: 1200px) {
+  .posts {
+    columns: 3;
+  }
+}
+@media (max-width: 900px) {
+  .posts {
+    columns: 2;
+  }
+}
+@media (max-width: 500px) {
+  .posts {
+    columns: 1;
+  }
+}
+
+.header__title {
+  font-size: 30px;
+  letter-spacing: 0.25px;
+  color: #121212;
+}
+.header__title span {
+  color: #2b99bb;
+}
+
+.form__input {
+  width: 100%;
+  height: 100%;
+  font-size: 32px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background-color: #121212;
+  color: #ffffff;
+  transition: 200ms cubic-bezier(0.6, 0.04, 0.98, 0.335);
+}
+.form__input:hover {
+  background-color: #2b2b2b;
+  transition: 200ms cubic-bezier(0.6, 0.04, 0.98, 0.335);
+}
+
+.posts__empty {
+  color: rgba(43, 43, 43, 0.5);
+}
+
+.post__item {
+  width: 100%;
+  position: relative;
+  background-color: #2b2b2b;
+}
+.post__item--priority {
+  background-color: #2b99bb;
+}
+.post__item--priority .post__name:focus {
+  caret-color: #2b2b2b;
+}
+.post__item + .post__item {
+  margin-top: var(--grid-gap);
+}
+.post__name {
+  width: 100%;
+  padding: calc(20px / 1.25);
+  padding-top: calc(20px * 2.125);
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  resize: none;
+  appearance: none;
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: transparent;
+  transition: 200ms cubic-bezier(0.6, 0.04, 0.98, 0.335);
+}
+.post__name:focus {
+  caret-color: #2b99bb;
+  color: #ffffff;
+  transition: 200ms cubic-bezier(0.6, 0.04, 0.98, 0.335);
+}
+.post__delete, .post__priority {
+  position: absolute;
+  top: calc(20px / 1.5);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  opacity: 0.3;
+  z-index: 2;
+  transition: 200ms cubic-bezier(0.6, 0.04, 0.98, 0.335);
+}
+.post__delete:hover, .post__priority:hover {
+  opacity: 0.8;
+  transition: 200ms cubic-bezier(0.6, 0.04, 0.98, 0.335);
+}
+.post__delete {
+  left: calc(20px / 1.5);
+  transform: rotateZ(45deg);
+  font-size: 16px;
+  background-color: #faf8f4;
+  color: #2b2b2b;
+}
+.post__priority {
+  right: calc(20px / 1.5);
+  font-size: 12px;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  background-color: transparent;
+}
+
+/******************/
+.is-item-visible {
+  animation: post-opacity 300ms cubic-bezier(0.6, 0.04, 0.98, 0.335), post-width 300ms cubic-bezier(0.6, 0.04, 0.98, 0.335);
+}
+
+@keyframes post-opacity {
+  0%, 60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes post-width {
+  0% {
+    width: 20%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no">
+  <div id="root"><div class="main"><div class="top"><header class="header"><h1 class="header__title">Corenimal Post<span>it</span></h1></header><form class="form"><button class="form__input" type="submit">+</button></form></div><section class="posts"><form class="post__item is-item-visible post__item--priority" spellcheck="false"><textarea class="post__name post__name--priority" style="height: auto;">Meditate for five minutes</textarea><button class="post__delete" type="button" title="Delete Item">+</button><button class="post__priority" type="button" title="High Priority">!</button></form><form class="post__item is-item-visible post__item--priority" spellcheck="false"><textarea class="post__name post__name--priority" style="height: auto;">Create or update your resume</textarea><button class="post__delete" type="button" title="Delete Item">+</button><button class="post__priority" type="button" title="High Priority">!</button></form><form class="post__item is-item-visible false" spellcheck="false"><textarea class="post__name false" style="height: auto;">Listen to music you haven't heard in a while</textarea><button class="post__delete" type="button" title="Delete Item">+</button><button class="post__priority" type="button" title="High Priority">!</button></form></section></div></div>
+    <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+
+  
+      <script id="rendered-js" type="module">
+import * as React from "https://cdn.skypack.dev/react@17.0.2";
+import * as ReactDOM from "https://cdn.skypack.dev/react-dom@17.0.2";
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
+import {
+useState,
+useEffect,
+createContext,
+useContext } from
+"https://cdn.skypack.dev/react@17.0.2";
+// ================
+// ================
+const initialPosts = [
+{
+  id: uuidv4(),
+  name: "Fix something that's broken in your house",
+  urgent: false,
+  heightArea: "auto" },
+
+{
+  id: uuidv4(),
+  name: "Meditate for five minutes",
+  urgent: true,
+  heightArea: "auto" },
+
+{
+  id: uuidv4(),
+  name: "Call Jingel Heimer",
+  urgent: true,
+  heightArea: "auto" },
+
+{
+  id: uuidv4(),
+  name: "Call Jacob",
+  urgent: true,
+  heightArea: "auto" },
+
+{
+  id: uuidv4(),
+  name: "Call John",
+  urgent: true,
+  heightArea: "auto" },
+
+{
+  id: uuidv4(),
+  name: "Create or update your resume",
+  urgent: true,
+  heightArea: "auto" },
+
+{
+  id: uuidv4(),
+  name: "Listen to music you haven't heard in a while",
+  urgent: false,
+  heightArea: "auto" }];
+
+
+
+const psi = localStorage.getItem("myposts") ?
+JSON.parse(localStorage.getItem("myposts")) :
+initialPosts;
+const PostContext = createContext();
+
+const PostProvider = ({ children }) => {
+  const [posts, setPosts] = useState(psi);
+
+  useEffect(() => {
+    localStorage.setItem("myposts", JSON.stringify(posts));
+  }, [posts]);
+
+  return /*#__PURE__*/(
+    React.createElement(PostContext.Provider, { value: { posts, setPosts } },
+    children));
+
+
+};
+
+// ================
+// ================
+const PostItComponent = ({ id, name, urgent, heightArea }) => {
+  const { posts, setPosts } = useContext(PostContext);
+  const [editable, setEditable] = useState(false);
+  const [title, setTitle] = useState(name);
+
+  // ----------------------------
+  const submitForm = e => e.preventDefault();
+  // ----------------------------
+  const updateNamePost = (e, id) => {
+    setEditable(!editable);
+
+    setPosts(
+    posts.map(p => {
+      if (p.id === id)
+      return {
+        ...p,
+        name: title };
+
+      return p;
+    }));
+
+  };
+  // ----------------------------
+  const updateUrgentPost = id => {
+    setPosts(
+    posts.map(p => {
+      if (p.id === id)
+      return {
+        ...p,
+        urgent: !p.urgent };
+
+      return p;
+    }));
+
+  };
+  // ----------------------------
+  const updateHeightPost = (e, id) => {
+    e.target.style.height = "auto";
+    e.target.style.height = e.target.scrollHeight + "px";
+    let ha = e.target.style.height;
+
+    setPosts(
+    posts.map(p => {
+      if (p.id === id)
+      return {
+        ...p,
+        heightArea: ha };
+
+      return p;
+    }));
+
+  };
+  // ----------------------------
+  const deletePost = id => setPosts(posts.filter(p => p.id !== id));
+  // ----------------------------
+  return /*#__PURE__*/(
+    React.createElement("form", {
+      key: id,
+      className: `post__item is-item-visible ${urgent && "post__item--priority"}`,
+      spellCheck: "false",
+      onSubmit: e => submitForm(e) },
+
+    editable ? /*#__PURE__*/
+    React.createElement("textarea", {
+      style: { height: heightArea },
+      className: `post__name ${urgent && "post__name--priority"}`,
+      value: title,
+      onChange: e => setTitle(e.target.value),
+      onBlur: e => updateNamePost(e, id),
+      onKeyUp: e => updateHeightPost(e, id) }) : /*#__PURE__*/
+
+
+    React.createElement("textarea", {
+      style: { height: heightArea },
+      className: `post__name ${urgent && "post__name--priority"}`,
+      onFocus: () => setEditable(!editable),
+      defaultValue: name }), /*#__PURE__*/
+
+
+    React.createElement("button", {
+      className: "post__delete",
+      type: "button",
+      onClick: () => deletePost(id),
+      title: "Delete Item" }, "+"), /*#__PURE__*/
+
+
+
+    React.createElement("button", {
+      className: "post__priority",
+      type: "button",
+      onClick: () => updateUrgentPost(id),
+      title: "High Priority" }, "!")));
+
+
+
+
+
+};
+// -------------
+const PostSection = () => {
+  const { posts } = useContext(PostContext);
+
+  return /*#__PURE__*/(
+    React.createElement("section", { className: "posts" },
+    posts.length > 0 ?
+    posts.map((p) => /*#__PURE__*/
+    React.createElement(PostItComponent, {
+      key: p.id,
+      id: p.id,
+      name: p.name,
+      urgent: p.urgent,
+      heightArea: p.heightArea })) : /*#__PURE__*/
+
+
+
+    React.createElement("span", { className: "posts__empty" }, "Nothing to see here...")));
+
+
+
+};
+// -------------
+const FormSection = () => {
+  const { posts, setPosts } = useContext(PostContext);
+  const createTask = e => {
+    e.preventDefault();
+
+    setPosts([
+    ...posts,
+    {
+      id: uuidv4(),
+      name: "Awesome things",
+      urgent: false,
+      heightArea: "auto" }]);
+
+
+  };
+
+  return /*#__PURE__*/(
+    React.createElement("form", { className: "form", onSubmit: createTask }, /*#__PURE__*/
+    React.createElement("button", { className: "form__input", type: "submit" }, "+")));
+
+
+
+
+};
+// -------------
+const HeaderSection = () => {
+  return /*#__PURE__*/(
+    React.createElement("header", { className: "header" }, /*#__PURE__*/
+    React.createElement("h1", { className: "header__title" }, "CORE",React.createElement("span", null, "nimal")," Post", /*#__PURE__*/
+    React.createElement("span", null, "it"))));
+
+
+
+};
+// -------------
+const PostsPage = () => {
+  return /*#__PURE__*/(
+    React.createElement(PostProvider, null, /*#__PURE__*/
+    React.createElement("div", { className: "main" }, /*#__PURE__*/
+    React.createElement("div", { className: "top" }, /*#__PURE__*/
+    React.createElement(HeaderSection, null), /*#__PURE__*/
+    React.createElement(FormSection, null)), /*#__PURE__*/
+
+    React.createElement(PostSection, null))));
+
+
+
+};
+// ================
+// ================
+ReactDOM.render( /*#__PURE__*/React.createElement(PostsPage, null), document.getElementById("root"));
+//# sourceURL=pen.js
+    </script>
+
+  
+
+
+
+
+ 
+</body></html>
